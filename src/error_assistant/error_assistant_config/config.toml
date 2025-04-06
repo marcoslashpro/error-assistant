@@ -7,7 +7,7 @@ files = ['.log', '.pyc']
 
 [pinecone]
 api_key = 'your-api-key'
-"code-index_name" = 'error-assistant-index'  
+code-index_name = 'error-assistant-index'  
 
 [pinecone.code-namespace]
 name = 'code-namespace'

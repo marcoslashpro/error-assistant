@@ -2,6 +2,7 @@ import tomllib
 import os
 from pathlib import Path
 
+
 class Config:
     def __init__(self) -> None:
         # Dynamically resolve path relative to this file
