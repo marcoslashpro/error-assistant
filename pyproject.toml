@@ -27,3 +27,4 @@ where = ["src"]
 
 [project.scripts]
 error-assistant = 'error_assistant.main:main'
+error-assistant-ce = "error_assistant.edit_config:edit_config"

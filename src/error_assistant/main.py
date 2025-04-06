@@ -9,7 +9,6 @@ from error_assistant.error_assistant_config.config import Config
 from error_assistant.watchers.code_base_observer import CodeBaseHandler
 from error_assistant.error_assistant_config.log_config import log_config
 from watchdog.observers import Observer
-from error_assistant.error_agent.agent import code_agent
 from error_assistant.vector_store.Retriever import Retriever
 from error_assistant.vectorizer.Vectorizer import Vectorizer
 
@@ -46,7 +45,10 @@ def main():
         while True:
             user_input: str = input('> ').strip()
 
-            if 'search code' in user_input or '-sc' in user_input:
+            if 'config edit' in user_input or '-ce' in user_input:
+                edit_config()
+
+            elif 'search code' in user_input or '-sc' in user_input:
                 search_input: str = input(':search code> ').strip()
                 if search_input:
                     print(Retriever().forward(search_input))
@@ -65,9 +67,6 @@ def main():
                 print("Updating code base... This might take a few moments.")
                 print(Vectorizer().prepare_code_records())
                 print('Code base updated successfully!')
-
-            elif 'config edit' in user_input or '-ce' in user_input:
-                edit_config()
 
             elif 'help' in user_input or '-h' in user_input:
                 print("""
