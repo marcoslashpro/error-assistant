@@ -11,6 +11,7 @@ from error_assistant.error_assistant_config.log_config import log_config
 from watchdog.observers import Observer
 from error_assistant.vector_store.Retriever import Retriever
 from error_assistant.vectorizer.Vectorizer import Vectorizer
+from error_assistant.error_agent.agent import code_agent
 
 
 # Load config
@@ -30,11 +31,6 @@ def start_observer():
     return observer
 
 
-def edit_config():
-    print("Opening the config file for editing...")
-    os.system(f"nano {config.CONFIG_PATH}")  # Or use another text editor
-
-
 def main():
     print("\nWelcome to the Error Assistant CLI!")
     print("Perform various actions like searching code, debugging errors, or updating the vector store.\n")
@@ -45,10 +41,7 @@ def main():
         while True:
             user_input: str = input('> ').strip()
 
-            if 'config edit' in user_input or '-ce' in user_input:
-                edit_config()
-
-            elif 'search code' in user_input or '-sc' in user_input:
+            if 'search code' in user_input or '-sc' in user_input:
                 search_input: str = input(':search code> ').strip()
                 if search_input:
                     print(Retriever().forward(search_input))
@@ -75,7 +68,6 @@ Available commands:
   - search logs  (-sl)  : Search for a string in the log base.
   - debug        (-d)   : Provide a log error message and get debugging advice.
   - update_code  (-uc)  : Re-analyze the code base and update the vector store.
-  - config edit  (-ce)  : Open config.toml for modification.
   - help         (-h)   : Display this help message.
                 """)
 
