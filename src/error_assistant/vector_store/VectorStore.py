@@ -17,7 +17,7 @@ class PineconeVectorStore:
 
 		self.index_name: str = config.get('pinecone', 'code-index_name', default='base-index')
 
-		self.namespace: str = config.config['pinecone']['code-namespace']['name']
+		self.namespace: str = config.config['pinecone']['code_namespace']['name']
 
 		self.hosting_cloud: str = config.get('pinecone', 'hosting-cloud', default='aws')
 

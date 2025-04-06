@@ -6,8 +6,8 @@ import threading
 from argparse import ArgumentParser
 
 from error_assistant.error_assistant_config.config import Config
-from error_assistant.error_assistant_config.log_config import log_config
 from error_assistant.watchers.code_base_observer import CodeBaseHandler
+from error_assistant.error_assistant_config.log_config import log_config
 from watchdog.observers import Observer
 from error_assistant.error_agent.agent import code_agent
 from error_assistant.vector_store.Retriever import Retriever

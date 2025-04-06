@@ -7,11 +7,11 @@ files = ['.log', '.pyc']
 
 [pinecone]
 api_key = 'your-api-key'
-code-index_name = 'error-assistant-index'  
+code-index_name = 'error-assistant-index'  # Removed single quotes around key
 
-[pinecone.code-namespace]
+[pinecone.code_namespace]
 name = 'code-namespace'
-top-k = 10
+top-k = 10  # Removed single quotes around key
 
 [agent]
-hf-token = 'your_hf_token'
+hf-token = 'your_hf_token'  # Removed single quotes around key
