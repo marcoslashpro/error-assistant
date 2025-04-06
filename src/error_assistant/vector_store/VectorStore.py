@@ -15,7 +15,7 @@ class PineconeVectorStore:
 		assert self.api_key, 'To use the Pinecone VectorStore, you must provide an api_key'
 		self._pc: pinecone.Pinecone = pinecone.Pinecone(api_key=self.api_key)
 
-		self.index_name: str = config.get('pinecone', 'index_name', default='base-index')
+		self.index_name: str = config.get('pinecone', 'code-index_name', default='base-index')
 
 		self.namespace: str = config.config['pinecone']['code-namespace']['name']
 

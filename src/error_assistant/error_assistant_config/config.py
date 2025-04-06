@@ -25,7 +25,7 @@ directories = ['env', '__pycache__', '.git', '.gitignore', '.mypy_cache', '.pyte
 files = ['.log', '.pyc']
 
 [pinecone]
-api_key = your-api-key
+api_key = 'your-api-key'
 "code-index_name" = 'error-assistant-index'  
 
 [pinecone.code-namespace]
