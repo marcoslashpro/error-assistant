@@ -1,0 +1,29 @@
+[build-system]
+requires = ['setuptools', 'setuptools-scm']
+build-backend = 'setuptools.build_meta'
+
+
+[project]
+name = 'error_assistant'
+authors = [
+	{name='Marco Tambasco', email='tambascomarco35@gmail.com'}
+]
+requires-python = '>=3.11'
+dependencies = [
+	'smolagents',
+	'pinecone',
+	'langchain',
+	'watchdog'
+]
+version = '0.0.4'
+
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+
+[project.scripts]
+error-assistant = 'error_assistant.main:main'

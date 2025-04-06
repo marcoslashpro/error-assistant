@@ -1,0 +1,4 @@
+langchain
+smolagents
+watchdog
+pinecone
