@@ -21,3 +21,9 @@ dist/
 
 # OS files
 .DS_Store
+
+#Test folder
+tests/
+
+#Temp nano files
+.swp

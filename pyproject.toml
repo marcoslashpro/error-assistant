@@ -26,5 +26,6 @@ where = ["src"]
 
 
 [project.scripts]
-error-assistant = 'error_assistant.main:main'
-error-assistant-ce = "error_assistant.edit_config:edit_config"
+error-assistant = 'error_assistant.entry_points.main:main'
+error-assistant-ec = "error_assistant.entry_points.edit:edit_config"
+error-assistant-chat = "error_assistant.entry_points.chat:chat"

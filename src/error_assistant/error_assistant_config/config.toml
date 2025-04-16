@@ -1,17 +1,33 @@
 [paths]
-code_base_path = '.'
+code_base_path = '/home/tambascomarco35/error-assistant-mk3/src/error_assistant' #insert the path of the directory you want to monitor
+snapshot_path = '/home/tambascomarco35/error-assistant-mk3/src/error_assistant/dirSnapshot.p'
+gitignore_path = '/home/tambascomarco35/error-assistant-mk3/.gitignore'
+log_file_path = '/home/tambascomarco35/error-assistant-mk3/logs.log'
 
-[paths.ignores]
-directories = ['env', '__pycache__', '.git', '.gitignore', '.mypy_cache', '.pytest_cache']
-files = ['.log', '.pyc']
+
+[observer]
+files_to_observe = [
+	'.py',       
+	'.js',        
+	'.java',      
+	'.php',       
+	'.rs',        
+	'.html',      
+	'.c',         
+	'.cs',        
+	'.md',        
+	'.css',
+	'.toml'        
+]
+
 
 [pinecone]
-api_key = 'your-api-key'
-code-index_name = 'error-assistant-index'  # Removed single quotes around key
+api_key = 'pcsk_4L4ZZj_7MTGh52jKUBr7rGtUY15Bc7eXv7owp5GWsrB99JcGfd4qEcYyTjTZjER1Qyu6kw'
+code-index_name = 'error-assistant-index'
 
 [pinecone.code_namespace]
 name = 'code-namespace'
-top-k = 10  # Removed single quotes around key
+top-k = 10
 
 [agent]
-hf-token = 'your_hf_token'  # Removed single quotes around key
+hf-token = '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'
