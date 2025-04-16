@@ -60,5 +60,5 @@ def log_config(logger):
 
 
     vectorHandler = VectorHandler()
-    vectorHandler.setLevel(logging.AGENT)
+    vectorHandler.setLevel(AGENT_LEVEL_NUM)
     logger.addHandler(vectorHandler)
