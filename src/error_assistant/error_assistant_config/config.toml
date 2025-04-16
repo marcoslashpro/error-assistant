@@ -26,7 +26,6 @@ api_key = 'insert-api-key-here'
 code-index_name = 'error-assistant-index' #feel free to change this as you want
 
 [pinecone.code_namespace]
-
 #feel free to change this as you want, but a top-k of 10 seems to work the best
 
 name = 'code-namespace'

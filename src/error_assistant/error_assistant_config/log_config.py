@@ -20,7 +20,7 @@ def log_config(logger):
             }
             code_agent({'role': 'user', 'content': f'{log_prompt}{log_entry}'})
 
-    AGENT_LEVEL_NUM = 25
+    AGENT_LEVEL_NUM = 55
     AGENT_LEVEL_NAME = "SUCCESS"
 
     logging.addLevelName(AGENT_LEVEL_NUM, AGENT_LEVEL_NAME)
@@ -60,5 +60,5 @@ def log_config(logger):
 
 
     vectorHandler = VectorHandler()
-    vectorHandler.setLevel(logging.DEBUG)
+    vectorHandler.setLevel(logging.AGENT)
     logger.addHandler(vectorHandler)

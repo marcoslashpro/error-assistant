@@ -13,7 +13,8 @@ dependencies = [
 	'smolagents',
 	'pinecone',
 	'langchain',
-	'watchdog'
+	'watchdog',
+	'pathspec'
 ]
 version = '0.0.4'
 

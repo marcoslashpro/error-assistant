@@ -38,7 +38,7 @@ class Retriever(PineconeVectorStore, Tool):
 
 
     def forward(self, query: str, filtering_field: Optional[str] = None) -> str:
-        self.top_k: int = config.config['pinecone'][self.namespace]['top-k']
+        self.top_k: int = config.config['pinecone']['code_namespace']['top-k']
 
         try:
             if filtering_field:
