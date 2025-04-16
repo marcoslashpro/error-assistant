@@ -1,8 +1,8 @@
 [paths]
-code_base_path = '/home/tambascomarco35/error-assistant-mk3/src/error_assistant' #insert the path of the directory you want to monitor
-snapshot_path = '/home/tambascomarco35/error-assistant-mk3/src/error_assistant/dirSnapshot.p'
-gitignore_path = '/home/tambascomarco35/error-assistant-mk3/.gitignore'
-log_file_path = '/home/tambascomarco35/error-assistant-mk3/logs.log'
+code_base_path = '/path/to/src/code' #insert the path of the directory you want to monitor
+snapshot_path = '/path/to/src/code/dirSnapshot.p' #don't remove dirSnapshot.p
+gitignore_path = '/path/to/.gitignore' #provide the path to the .gitignore file
+log_file_path = '/path/to/src/code/logs.log' #provide the path to your logs file
 
 
 [observer]
@@ -22,12 +22,15 @@ files_to_observe = [
 
 
 [pinecone]
-api_key = 'pcsk_4L4ZZj_7MTGh52jKUBr7rGtUY15Bc7eXv7owp5GWsrB99JcGfd4qEcYyTjTZjER1Qyu6kw'
-code-index_name = 'error-assistant-index'
+api_key = 'insert-api-key-here'
+code-index_name = 'error-assistant-index' #feel free to change this as you want
 
 [pinecone.code_namespace]
+
+#feel free to change this as you want, but a top-k of 10 seems to work the best
+
 name = 'code-namespace'
 top-k = 10
 
 [agent]
-hf-token = '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'
+hf-token = 'insert-hf_token-here'
