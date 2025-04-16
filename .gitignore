@@ -23,7 +23,7 @@ dist/
 .DS_Store
 
 #Test folder
-tests/
+src/error_assistant/tests
 
 #Temp nano files
 .swp
