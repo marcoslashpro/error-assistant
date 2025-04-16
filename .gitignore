@@ -27,3 +27,6 @@ src/error_assistant/tests
 
 #Temp nano files
 .swp
+
+#snapshot file
+dirSnapshot.p
