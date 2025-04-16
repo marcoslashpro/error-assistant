@@ -1,6 +1,6 @@
 [paths]
 code_base_path = '/path/to/src/code' #insert the path of the directory you want to monitor
-snapshot_path = '/path/to/src/code/dirSnapshot.p' #don't remove dirSnapshot.p
+snapshot_path = '/path/to/src/code/dirSnapshot.p' #don't remove dirSnapshot.p!
 gitignore_path = '/path/to/.gitignore' #provide the path to the .gitignore file
 log_file_path = '/path/to/src/code/logs.log' #provide the path to your logs file
 
@@ -22,14 +22,12 @@ files_to_observe = [
 
 
 [pinecone]
-api_key = 'insert-api-key-here'
-code-index_name = 'error-assistant-index' #feel free to change this as you want
+api_key = 'your-pinecone-api-key-here'
+code-index_name = 'error-assistant-index'
 
 [pinecone.code_namespace]
-#feel free to change this as you want, but a top-k of 10 seems to work the best
-
 name = 'code-namespace'
 top-k = 10
 
 [agent]
-hf-token = 'insert-hf_token-here'
+hf-token = 'your-hf-token-here'
