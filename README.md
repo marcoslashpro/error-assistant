@@ -108,3 +108,5 @@ src/error_assistant/tests
 # Temp nano files
 .swp
 ```
+
+And remember, any time that you have a file that you don't want to upsert in the vector-store, just add it to the .gitignore file!
