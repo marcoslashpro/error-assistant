@@ -21,7 +21,7 @@ def log_config(logger):
             code_agent({'role': 'user', 'content': f'{log_prompt}{log_entry}'})
 
     AGENT_LEVEL_NUM = 55
-    AGENT_LEVEL_NAME = "SUCCESS"
+    AGENT_LEVEL_NAME = "AGENT"
 
     logging.addLevelName(AGENT_LEVEL_NUM, AGENT_LEVEL_NAME)
 
