@@ -75,8 +75,9 @@ try:
     'some risky expression'
 except Exception as e: #substitute the ‘Exception’ with the error
     logger.agent(e)
-This is going to run inference on the model with the given error!
 ```
+This is going to run inference on the model with the given error!
+
 
 ## P.S.
 Please always have a .gitignore file, or a lot of useless files will be uploaded to the vector store. A minimal one would be:
