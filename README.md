@@ -19,6 +19,7 @@ But I am getting ahead of myself. Let's see how to get it up and running.
 ## **Step by Step**
 
 1.  **Install the repo**
+   
     a.  Clone the repo:
         ```
         git clone [https://github.com/marcoslashpro/error-assistant.git](https://github.com/marcoslashpro/error-assistant.git)
@@ -29,10 +30,13 @@ But I am getting ahead of myself. Let's see how to get it up and running.
         pip install error-assistant
         ```
 
-2.  **Setup the error-assistant**
-    a.  The first thing to do after installation is to run `error-assistant-ce` in the terminal, which will kindly open a `config.toml` file.
+3.  **Setup the error-assistant**
 
-    b.  Inside of the `config.toml` file, you'll find everything that you might want to set up in order to get the app up and running!
+    a. The first thing to do is make sure you have a `.gitignore` file, if not, please create it, you might find a basic one at the bottom of this          README file.
+
+    b. Then run `error-assistant-ce` in the terminal, which will kindly open a `config.toml` file.
+
+    c.  Inside of the `config.toml` file, you'll find everything that you might want to set up in order to get the app up and running!
 
         On a high level, focus only on:
         * Inserting your `hf_token` and the `pinecone api_key`.
