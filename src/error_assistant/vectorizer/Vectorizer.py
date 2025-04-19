@@ -126,7 +126,7 @@ class Vectorizer(PineconeVectorStore):
 			self.vector_store.upsert_records(self.namespace, record)
 
 			record_id = record[0]['_id']
-			logger.info(f'Upserting of record {record_id} successfull')
+			#logger.info(f'Upserting of record {record_id} successfull')
 
 		except pinecone.exceptions.PineconeException as e:
 			print('Error while upserting the records:')
@@ -161,8 +161,8 @@ class Vectorizer(PineconeVectorStore):
 										
 
 						else:
-							print(f'Removed all of the existing records for {file_path}')
+							#print(f'Removed all of the existing records for {file_path}')
 							break
 							
-				print(f'{file_path} removed from the vector-store')
+				#print(f'{file_path} removed from the vector-store')
 				break

@@ -29,7 +29,7 @@ class CodeWatcher():
 		self.checkpoint = self.open_snapshot()
 		self.new_snapshot = self.take_snapshot()
 
-		if self.checkpoint:			
+		if self.checkpoint:
 			snap_diff = DirectorySnapshotDiff(self.checkpoint, self.new_snapshot)
 			self.update_vectorStore(snap_diff)
 			return			
@@ -107,12 +107,9 @@ class CodeWatcher():
 					for d in diff:
 						file_event: FileSystemEvent = event_map[event]['event']
 						diffEvent = file_event(d)
-						#check for for a valuable path
-						if not self.handler.is_ignored(diffEvent.src_path):
-							print(diffEvent.src_path)
-							#we then execute the specific handler method
-							handler_method = event_map[event]['method']
-							handler_method(diffEvent)
+						#we then execute the specific handler method
+						handler_method = event_map[event]['method']
+						handler_method(diffEvent)
 
 		except Exception as e:
 			pass

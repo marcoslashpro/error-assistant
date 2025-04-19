@@ -35,7 +35,7 @@ class CodeBaseHandler(FileSystemEventHandler, Vectorizer):
 
 	def on_created(self, event):
 		if not event.is_directory:
-			if not self.ignores(event.src_path) and event.src_path in self.files_to_observe:
+			if not self.ignores(event.src_path) and os.path.splitext(event.src_path)[-1] in self.files_to_observe:
 
 				for record in self.prepare_records(event.src_path):
 					self.upsert_record(record)
@@ -45,7 +45,7 @@ class CodeBaseHandler(FileSystemEventHandler, Vectorizer):
 
 	def on_modified(self, event):
 		if not event.is_directory:
-			if not self.ignores(event.src_path) and event.src_path in self.files_to_observe:
+			if not self.ignores(event.src_path) and os.path.splitext(event.src_path)[-1] in self.files_to_observe:
 
 				for record in self.prepare_records(event.src_path):
 					self.upsert_record(record)
@@ -54,7 +54,7 @@ class CodeBaseHandler(FileSystemEventHandler, Vectorizer):
 
 	def on_moved(self, event):
 		if not event.is_directory:
-			if not self.ignores(event.src_path) and event.src_path in self.files_to_observe:
+			if not self.ignores(event.src_path) and os.path.splitext(event.src_path)[-1] in self.files_to_observe:
 					
 				#if the file name has been changed, we have to delete the old records before upserting the new
 				if not os.path.basename(event.src_path) == os.path.basename(event.dest_path):
@@ -68,7 +68,7 @@ class CodeBaseHandler(FileSystemEventHandler, Vectorizer):
 
 	def on_deleted(self, event):
 		if not event.is_directory:
-			if not self.is_ignored(event.src_path) and event.src_path in self.files_to_observe:
+			if not self.ignores(event.src_path) and os.path.splitext(event.src_path)[-1] in self.files_to_observe:
 
 				self.delete_records(event.src_path)
 

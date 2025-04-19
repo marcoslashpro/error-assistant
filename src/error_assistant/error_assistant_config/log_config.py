@@ -13,11 +13,11 @@ def log_config(logger):
             
             log_entry = {
                 "timestamp": log.asctime,
-                "level": log.levelname,
-                "module": log.module,
+                "module": log.filename,
                 "line": log.lineno,
                 "message": log.getMessage()
             }
+
             code_agent({'role': 'user', 'content': f'{error_agent_prompt}{log_entry}'})
 
     AGENT_LEVEL_NUM = 55
@@ -35,7 +35,7 @@ def log_config(logger):
         logger.agent("Houston, we have an %s", "flag", exc_info=1)
         """
         if self.isEnabledFor(AGENT_LEVEL_NUM):
-            self._log(AGENT_LEVEL_NUM, message, args, **kwargs)
+            self._log(AGENT_LEVEL_NUM, message, args, **kwargs, stacklevel=2)
 
     logging.Logger.agent = agent
         
@@ -61,4 +61,5 @@ def log_config(logger):
 
     vectorHandler = VectorHandler()
     vectorHandler.setLevel(AGENT_LEVEL_NUM)
+    vectorHandler.setFormatter(formatter)
     logger.addHandler(vectorHandler)
