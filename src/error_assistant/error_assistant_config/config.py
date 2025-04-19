@@ -14,6 +14,5 @@ class Config:
         with open(self.CONFIG_PATH, 'rb') as f:
             self.config = tomllib.load(f)
 
-
     def get(self, section: str, key: str, default: str | None = None):
         return self.config.get(section, {}).get(key, default)

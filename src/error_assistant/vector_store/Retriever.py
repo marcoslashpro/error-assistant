@@ -18,16 +18,22 @@ config: Config = Config()
 
 class Retriever(PineconeVectorStore, Tool):
     name = 'retriever'
-    description = 'Using semantic search, it retrieves other-wise un-accessible content from the VectorStore, which could be useful for solving the problem at hand.'
+    description = '''
+Accesses a VectorStore of code snippets using semantic search.
+This tool retrieves otherwise un-accessible parts of the code.
+Use it to get relevant source code using error metadata (such as module and line).
+Queries should be in affirmative voice, e.g.:
+"Get the code in module auth.views around line 56."
+'''
     inputs = {
         'query': {
             'type': 'string',
-            'description': 'The query, in affirmative voice, used to find information inside of the VectorStore.'
+            'description': "Use 'path', 'module', or 'line' for narrowing down your search."
         },
         'filtering_field': {
             'type': 'string',
             'nullable': True,
-            'description': 'This is an optional field, and it can be used to describe the field to use in roder to filter the response from the vector store. Valid fields include: (\'timestamp\', \'module\', \'line\', to be used for log-namespace filtering) and (\'path\', \'module\', to be used for code-namespace filtering.)'
+            'description': "Use 'path', 'module', or 'line' for narrowing down your search."
         }
     }
     output_type = 'string'

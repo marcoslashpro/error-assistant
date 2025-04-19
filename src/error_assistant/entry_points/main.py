@@ -29,9 +29,9 @@ def main():
     
     try:
         print('Connecting...')
-        vectorizer: Vectorizer = Vectorizer()
         retriever: Retriever = Retriever()
         code_watcher: CodeWatcher = CodeWatcher(CodeBaseHandler)
+        print('Calling CodeWatcher setup.')
         code_watcher.setup()
         print('Connected! \n')
 

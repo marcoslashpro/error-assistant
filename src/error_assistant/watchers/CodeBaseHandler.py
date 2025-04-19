@@ -29,13 +29,13 @@ class CodeBaseHandler(FileSystemEventHandler, Vectorizer):
 		if not os.path.exists(self.gitignore_path):
 			raise FileNotFoundError(f'Please provide a valid path for the .gitignore file, got {self.gitignore_path}')
 
-
+		self.files_to_observe: str = config.config['observer']['files_to_observe']
 		self.ignore_pattern = self.setup_ignore_patterns()
 
 
 	def on_created(self, event):
 		if not event.is_directory:
-			if not self.is_ignored(event.src_path):
+			if not self.ignores(event.src_path) and event.src_path in self.files_to_observe:
 
 				for record in self.prepare_records(event.src_path):
 					self.upsert_record(record)
@@ -45,7 +45,7 @@ class CodeBaseHandler(FileSystemEventHandler, Vectorizer):
 
 	def on_modified(self, event):
 		if not event.is_directory:
-			if not self.is_ignored(event.src_path):
+			if not self.ignores(event.src_path) and event.src_path in self.files_to_observe:
 
 				for record in self.prepare_records(event.src_path):
 					self.upsert_record(record)
@@ -54,7 +54,7 @@ class CodeBaseHandler(FileSystemEventHandler, Vectorizer):
 
 	def on_moved(self, event):
 		if not event.is_directory:
-			if not self.is_ignored(event.src_path):
+			if not self.ignores(event.src_path) and event.src_path in self.files_to_observe:
 					
 				#if the file name has been changed, we have to delete the old records before upserting the new
 				if not os.path.basename(event.src_path) == os.path.basename(event.dest_path):
@@ -68,7 +68,7 @@ class CodeBaseHandler(FileSystemEventHandler, Vectorizer):
 
 	def on_deleted(self, event):
 		if not event.is_directory:
-			if not self.is_ignored(event.src_path):
+			if not self.is_ignored(event.src_path) and event.src_path in self.files_to_observe:
 
 				self.delete_records(event.src_path)
 
@@ -80,5 +80,5 @@ class CodeBaseHandler(FileSystemEventHandler, Vectorizer):
 		return spec
 
 
-	def is_ignored(self, file_path: str) -> bool:
+	def ignores(self, file_path: str) -> bool:
 		return self.ignore_pattern.match_file(file_path)

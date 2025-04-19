@@ -36,8 +36,9 @@ class CodeWatcher():
 
 		#if we don't have a checkpoint, we'll just upload the entirety of the new snapshot
 		for path in self.new_snapshot.paths:
-			for record in self.handler.prepare_records(path):
-				self.handler.upsert_record(record)
+			if not self.handler.ignores(path) and os.path.splitext(path)[-1] in self.handler.files_to_observe:
+				for record in self.handler.prepare_records(path):
+					self.handler.upsert_record(record)
 
 
 	def close(self) -> None:
@@ -106,9 +107,12 @@ class CodeWatcher():
 					for d in diff:
 						file_event: FileSystemEvent = event_map[event]['event']
 						diffEvent = file_event(d)
-						#we then execute the specific handler method
-						handler_method = event_map[event]['method']
-						handler_method(diffEvent)
+						#check for for a valuable path
+						if not self.handler.is_ignored(diffEvent.src_path):
+							print(diffEvent.src_path)
+							#we then execute the specific handler method
+							handler_method = event_map[event]['method']
+							handler_method(diffEvent)
 
 		except Exception as e:
 			pass
