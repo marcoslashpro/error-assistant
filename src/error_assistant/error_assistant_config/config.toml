@@ -1,9 +1,8 @@
 [paths]
-code_base_path = '/home/tambascomarco35/error-assistant-mk3' #insert the path of the directory you want to monitor
-snapshot_path = '/home/tambascomarco35/error-assistant-mk3/dirSnapshot.p' #don't remove dirSnapshot.p!
-gitignore_path = '/home/tambascomarco35/error-assistant-mk3/.gitignore' #provide the path to the .gitignore file
-log_file_path = '/home/tambascomarco35/error-assistant-mk3/logs.log' #provide the path to your logs file
-env_path = '/home/tambascomarco35/error-assistant-mk3/env'
+code_base_path = '/path/to/src/code' #insert the path of the directory you want to monitor
+snapshot_path = '/path/to/dirSnapshot.p' #don't remove dirSnapshot.p!
+gitignore_path = '/path/to/.gitignore' #provide the path to the .gitignore file
+log_file_path = '/path/to/logs.log' #provide the path to your logs file
 
 
 [observer]
@@ -23,7 +22,7 @@ files_to_observe = [
 
 
 [pinecone]
-api_key = 'pcsk_6DgLEo_UmisTQWTNcSdsVWRZuGKrs642LfcH9MfdP8dzT9bmwzgBy1EyocU2CjutQyWjHi'
+api_key = 'pinecone-api-key'
 code-index_name = 'error-assistant-index'
 
 [pinecone.code_namespace]
@@ -31,4 +30,4 @@ name = 'code-namespace'
 top-k = 10
 
 [agent]
-hf-token = 'hf_pSSbpddgDuGfybyCOEgbQmwXnVUfsxkcHvhf_pSSbpddgDuGfybyCOEgbQmwXnVUfsxkcHv'
+hf-token = 'hf-token'
