@@ -19,6 +19,7 @@ But I am getting ahead of myself. Let's see how to get it up and running.
 ## **Step by Step**
 
 1.  **Install the repo**
+   
     a.  Clone the repo:
         ```
         git clone [https://github.com/marcoslashpro/error-assistant.git](https://github.com/marcoslashpro/error-assistant.git)
@@ -29,10 +30,13 @@ But I am getting ahead of myself. Let's see how to get it up and running.
         pip install error-assistant
         ```
 
-2.  **Setup the error-assistant**
-    a.  The first thing to do after installation is to run `error-assistant-ce` in the terminal, which will kindly open a `config.toml` file.
+3.  **Setup the error-assistant**
 
-    b.  Inside of the `config.toml` file, you'll find everything that you might want to set up in order to get the app up and running!
+    a. The first thing to do is make sure you have a `.gitignore` file, if not, please create it, you might find a basic one at the bottom of this          README file.
+
+    b. Then run `error-assistant-ce` in the terminal, which will kindly open a `config.toml` file.
+
+    c.  Inside of the `config.toml` file, you'll find everything that you might want to set up in order to get the app up and running!
 
         On a high level, focus only on:
         * Inserting your `hf_token` and the `pinecone api_key`.
@@ -71,10 +75,11 @@ try:
     'some risky expression'
 except Exception as e: #substitute the ‘Exception’ with the error
     logger.agent(e)
-This is going to run inference on the model with the given error!
 ```
+This is going to run inference on the model with the given error!
 
-P.S.
+
+## P.S.
 Please always have a .gitignore file, or a lot of useless files will be uploaded to the vector store. A minimal one would be:
 
 ```
@@ -110,3 +115,7 @@ src/error_assistant/tests
 ```
 
 And remember, any time that you have a file that you don't want to upsert in the vector-store, just add it to the .gitignore file!
+
+## PP.S
+Sometimes, at least for me, the .gitignore file gives me headaches. If you notice that the app is upserting unwanted files to the vector-store, try to re-modify the config.toml file by doing `error-assistant-ec` and re-inserting the `.gitignore` file path.
+In a future version I'll improve the way paths are tracked, if someone has any recommendations, please reach out!
