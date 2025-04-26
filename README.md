@@ -115,7 +115,3 @@ src/error_assistant/tests
 ```
 
 And remember, any time that you have a file that you don't want to upsert in the vector-store, just add it to the .gitignore file!
-
-## PP.S
-Sometimes, at least for me, the .gitignore file gives me headaches. If you notice that the app is upserting unwanted files to the vector-store, try to re-modify the config.toml file by doing `error-assistant-ec` and re-inserting the `.gitignore` file path.
-In a future version I'll improve the way paths are tracked, if someone has any recommendations, please reach out!
