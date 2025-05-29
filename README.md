@@ -89,7 +89,10 @@ except Exception as e: #substitute the ‘Exception’ with the error
 This is going to run inference on the model with the given error!
 
 ## P.S.
-Please always have a .gitignore file, or a lot of useless files will be uploaded to the vector store. A minimal one would be:
+Please always have a `.gitignore` file, or a lot of useless files will be uploaded to the vector store. 
+When cloning the repo, you'll also import the `.gitignore`.
+In case that you want to have your own(as you should) make sure to add `dirSnapshot.p` to it, so that you will not upload to the VectorStore the directory snaposhots.
+To create your own, a minimal one would be:
 
 ```
 # Byte-compiled / optimized / DLL files
@@ -116,11 +119,17 @@ dist/
 # OS files
 .DS_Store
 
-# Test folder
+#Test folder
 src/error_assistant/tests
 
-# Temp nano files
+#Temp nano files
 .swp
+
+#snapshot file
+dirSnapshot.p
+
+#error-assistant folder
+error-assistant
 ```
 
 And remember, any time that you have a file that you don't want to upsert in the vector-store, just add it to the .gitignore file!
