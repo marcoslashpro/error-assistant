@@ -129,7 +129,7 @@ src/error_assistant/tests
 dirSnapshot.p
 
 #error-assistant folder
-error-assistant
+error-assistant/
 ```
 
 And remember, any time that you have a file that you don't want to upsert in the vector-store, just add it to the .gitignore file!
