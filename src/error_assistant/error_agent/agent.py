@@ -1,13 +1,8 @@
 from smolagents import InferenceClientModel, CodeAgent
 from smolagents import DuckDuckGoSearchTool
-import os
+from huggingface_hub.errors import HfHubHTTPError
 
 from error_assistant.vector_store.Retriever import Retriever
-
-
-hf_token = os.environ.get('HF_TOKEN')
-if not hf_token:
-	print(f"Please provide an HF_TOKEN environment variable in order to use the CodeAgent")
 
 DuckDuckGoSearchTool.description = """
 Searches the web (via DuckDuckGo) for external documentation or third-party code references.
@@ -19,8 +14,15 @@ Understand unfamiliar APIs, libraries, or external behavior not present in the c
 Retrieve best practices or patterns related to the error."""
 
 
-code_agent: CodeAgent = CodeAgent(
-		model=InferenceClientModel(),
-		tools=[Retriever()],
-		add_base_tools=True
-	)
+try:
+	code_agent: CodeAgent = CodeAgent(
+			model=InferenceClientModel(),
+			tools=[Retriever()],
+			add_base_tools=True
+		)
+except HfHubHTTPError as e:
+	if e.response is not None and e.response.status_code == 401:
+		print('In order to use the code agent, you must provide a valid '
+				'HF_TOKEN(With READ permission and permissions to `Make calls to Inference Providers`)' \
+				' by doing `huggingface-cli login` and then inserting your token.')
+		raise

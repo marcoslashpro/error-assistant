@@ -38,6 +38,7 @@ class CodeWatcher():
 		for path in self.new_snapshot.paths:
 			if not self.handler.ignores(path) and os.path.splitext(path)[-1] in self.handler.files_to_observe:
 				for record in self.handler.prepare_records(path):
+					logger.info(f'Upserting {path} into vectorstore')
 					self.handler.upsert_record(record)
 
 	def close(self) -> None:
@@ -73,14 +74,10 @@ class CodeWatcher():
 		'''
 		pickle.dump(snapshot, open( self.snapshot_path, 'wb' ))
 
-	def open_snapshot(self) -> DirectorySnapshot:
-		if not os.path.exists(self.snapshot_path):
-			raise FileNotFoundError(
-				f"The directory snapshot path: {self.snapshot_path} cannot be located in the system"
-			)
-
-		dirSnapshot: DirectorySnapshot = pickle.load(open( self.snapshot_path, "rb" ))
-		return dirSnapshot
+	def open_snapshot(self) -> DirectorySnapshot | None:
+		if os.path.exists(self.snapshot_path):
+			dirSnapshot: DirectorySnapshot = pickle.load(open( self.snapshot_path, "rb" ))
+			return dirSnapshot
 
 	def update_vector_store(self, diff: DirectorySnapshotDiff) -> None:
 			"""
