@@ -16,7 +16,7 @@ But I am getting ahead of myself. Let's see how to get it up and running.
 
 ## **Step by Step**
 
-1.  **Install the repo**
+1. **Install the repo**
    
 Clone the repo and cd into it:
 ```
@@ -39,7 +39,7 @@ Install the requirements:
 pip install -r requirements.txt
 ```
 
-3.  **Setup the error-assistant**
+2. **Setup the error-assistant**
 a. The first thing to do is make sure you have a `.gitignore` file, if not, please create it, you might find a basic one at the bottom of this README file.
 b. Then run `error-assistant-ec` in the terminal, which will kindly open a `config.toml` file.
 c. Inside of the `config.toml` file, you'll find everything that you might want to set up in order to get the app up and running!
