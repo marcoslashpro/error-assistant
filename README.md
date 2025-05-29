@@ -22,7 +22,7 @@ But I am getting ahead of myself. Let's see how to get it up and running.
    
 Clone the repo:
 ```
-git clone [https://github.com/marcoslashpro/error-assistant.git](https://github.com/marcoslashpro/error-assistant.git)
+git clone https://github.com/marcoslashpro/error-assistant.git
 ```
 
 Install the repo via pip:
