@@ -5,12 +5,13 @@ from error_assistant.error_assistant_config.config import Config
 config: Config = Config()
 
 
-def log_config(logger):
+def create_logger(name: str):
+    logger = logging.getLogger(name)
     class VectorHandler(logging.Handler):
         def emit(self, log):
             from error_assistant.error_agent.agent import code_agent
             from error_assistant.error_agent.prompts import error_agent_prompt
-            
+
             log_entry = {
                 "timestamp": log.asctime,
                 "module": log.filename,
@@ -38,7 +39,7 @@ def log_config(logger):
             self._log(AGENT_LEVEL_NUM, message, args, **kwargs, stacklevel=2)
 
     logging.Logger.agent = agent
-        
+
     base_path = config.config['paths']['code_base_path']
     logger.setLevel(logging.INFO)
     formatter = logging.Formatter(
@@ -63,3 +64,5 @@ def log_config(logger):
     vectorHandler.setLevel(AGENT_LEVEL_NUM)
     vectorHandler.setFormatter(formatter)
     logger.addHandler(vectorHandler)
+
+    return logger

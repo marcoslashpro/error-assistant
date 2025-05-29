@@ -7,4 +7,4 @@ config: Config = Config()
 
 def edit_config():
     print("Opening the config file for editing...")
-    os.system(f"nano {config.CONFIG_PATH}")
+    os.system(f"code {config.CONFIG_PATH}")

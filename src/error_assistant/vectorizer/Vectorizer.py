@@ -1,19 +1,18 @@
 import os
 import sys
 import hashlib
-from typing import *
+from typing import NewType, Iterable
 import logging
 
 from error_assistant.error_assistant_config.config import Config
-from error_assistant.error_assistant_config.log_config import log_config
+from error_assistant.error_assistant_config.log_config import create_logger
 from error_assistant.vector_store.VectorStore import PineconeVectorStore
 
 from langchain_text_splitters import Language, RecursiveCharacterTextSplitter
 import pinecone
 
 
-logger = logging.getLogger(__name__)
-log_config(logger)
+logger = create_logger(__name__)
 
 config: Config = Config()
 
@@ -61,12 +60,12 @@ class Vectorizer(PineconeVectorStore):
 		"""
 		file_name: str = os.path.basename(file_path)
 
-		record: Record = {
+		record: Record = Record({
 						'_id': f'{file_name}:chunk{chunk_idx}',
 						'path': os.path.dirname(file_path),
 						'module': file_name,
 						'chunk_text': chunk_content,
-					}
+					})
 
 		return [record]
 
@@ -96,7 +95,7 @@ class Vectorizer(PineconeVectorStore):
 					chunk_size=500, 
 					chunk_overlap=100
 				)
-            
+
 		elif file_ext == '.css':
 			splitter = RecursiveCharacterTextSplitter(
 				separators=['}', '\n'], 
@@ -113,9 +112,7 @@ class Vectorizer(PineconeVectorStore):
 
 		return splitter.split_text(file_content)
 
-
-
-	def upsert_record(self, record: Record) -> None:
+	def upsert_record(self, record: list[Record]) -> None:
 		"""
 		Decides if a given record should:
 			1. be upserted, if it is a new file, or a modified one,
@@ -123,22 +120,21 @@ class Vectorizer(PineconeVectorStore):
 			3. be updated if the file path and/or file name has changed since last upsert.
 		"""
 		try:
-			self.vector_store.upsert_records(self.namespace, record)
+			self.vector_store.upsert_records(self.namespace, record)  # type: ignore[call-args]
 
 			record_id = record[0]['_id']
 			#logger.info(f'Upserting of record {record_id} successfull')
 
 		except pinecone.exceptions.PineconeException as e:
-			print('Error while upserting the records:')
-			raise
-
+			(f'Error while upserting the record: ')
+			raise e
 
 	def delete_records(self, file_path: str) -> None:
 		"""
 		Deletes all of the documents in the vector-store associated with a specific path file
 		"""
 		while True:
-				response = self.vector_store.search(self.namespace, query={
+				response = self.vector_store.search(self.namespace, query={  # type: ignore[call-args] 
 						'top_k': 1,
 						'filter': {
 						'path': os.path.dirname(file_path),
@@ -146,7 +142,7 @@ class Vectorizer(PineconeVectorStore):
 						},
 					'inputs': {
 						'text': file_path,
-						},                
+						},
 					})
 
 				if response['result']['hits']:
@@ -158,11 +154,10 @@ class Vectorizer(PineconeVectorStore):
 
 						if os.path.join(record_path, record_module) == file_path:
 							self.vector_store.delete(record_id, namespace=self.namespace)
-										
 
 						else:
 							#print(f'Removed all of the existing records for {file_path}')
 							break
-							
+
 				#print(f'{file_path} removed from the vector-store')
 				break

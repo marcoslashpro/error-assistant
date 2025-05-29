@@ -30,3 +30,4 @@ where = ["src"]
 error-assistant = 'error_assistant.entry_points.main:main'
 error-assistant-ec = "error_assistant.entry_points.edit:edit_config"
 error-assistant-chat = "error_assistant.entry_points.chat:chat"
+error-assistant-debug = "error_assistant.entry_points.debug:debug"

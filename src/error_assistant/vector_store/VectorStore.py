@@ -1,13 +1,12 @@
 import os
 from error_assistant.error_assistant_config.config import Config
-from error_assistant.error_assistant_config.log_config import log_config
+from error_assistant.error_assistant_config.log_config import create_logger
 
 import pinecone
 import sys
 
-
 config = Config()
-
+logger = create_logger(__name__)
 
 class PineconeVectorStore:
 	def __init__(self) -> None:
@@ -24,15 +23,15 @@ class PineconeVectorStore:
 		self.hosting_region: str = config.get('pinecone', 'hosting-region', default='us-east-1')
 
 
-		self.vector_store: pinecone.data.index.Index = self.access_vector_store()
+		self.vector_store = self.access_vector_store()
 
 
-	def access_vector_store(self) -> pinecone.data.index.Index:
+	def access_vector_store(self):
 		if not self._pc.has_index(self.index_name):
 			self.create_vector_store()
 
 		try:
-			vector_store: pinecone.data.index.Index = self._pc.Index(self.index_name)
+			vector_store = self._pc.Index(self.index_name)
 			return vector_store
 		except pinecone.exceptions.PineconeException as e:
 			print(f'Something went wrong while accessing the vector store:')
@@ -43,11 +42,11 @@ class PineconeVectorStore:
 		self.embedding_model: str = config.get('pinecone', 'embedding-model', default='llama-text-embed-v2')
 
 		try:
-			vector_store: pinecone.data.index.Index = self._pc.create_index_for_model(
+			vector_store = self._pc.create_index_for_model(
 					name=self.index_name,
 					cloud=self.hosting_cloud,
 					region=self.hosting_region,
-					embed={
+					embed={  # type: ignore
 						'model': self.embedding_model,
 						'field_map': {'text': 'chunk_text'}
 					}
@@ -55,4 +54,4 @@ class PineconeVectorStore:
 			return vector_store
 		except pinecone.exceptions.PineconeException as e:
 			print('Error while creating the vector store: ')
-			raise
+			raise e

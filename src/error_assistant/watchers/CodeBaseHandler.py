@@ -11,11 +11,12 @@ from watchdog.observers import Observer
 from watchdog.utils.dirsnapshot import DirectorySnapshot
 import pathspec
 
-from error_assistant.error_assistant_config.config import Config
+from error_assistant.error_assistant_config import config, log_config
 from error_assistant.vectorizer.Vectorizer import Vectorizer
 
 
-config: Config = Config()
+config = config.Config()
+logger = log_config.create_logger(__name__)
 
 
 class CodeBaseHandler(FileSystemEventHandler, Vectorizer):
@@ -32,53 +33,45 @@ class CodeBaseHandler(FileSystemEventHandler, Vectorizer):
 		self.files_to_observe: str = config.config['observer']['files_to_observe']
 		self.ignore_pattern = self.setup_ignore_patterns()
 
-
 	def on_created(self, event):
 		if not event.is_directory:
-			if not self.ignores(event.src_path) and os.path.splitext(event.src_path)[-1] in self.files_to_observe:
+			if not self.ignores(event.src_path) and os.path.splitext(event.src_path)[-1] in self.files_to_observe: # type: ignore
 
-				for record in self.prepare_records(event.src_path):
+				for record in self.prepare_records(event.src_path):  # type: ignore
 					self.upsert_record(record)
 					print(f'{event.src_path} created in the vector-store')
 
-
-
 	def on_modified(self, event):
 		if not event.is_directory:
-			if not self.ignores(event.src_path) and os.path.splitext(event.src_path)[-1] in self.files_to_observe:
+			if not self.ignores(event.src_path) and os.path.splitext(event.src_path)[-1] in self.files_to_observe: # type: ignore
 
-				for record in self.prepare_records(event.src_path):
+				for record in self.prepare_records(event.src_path):  # type: ignore
 					self.upsert_record(record)
 					print(f'{event.src_path} modified in the vector-store')
 
-
 	def on_moved(self, event):
 		if not event.is_directory:
-			if not self.ignores(event.src_path) and os.path.splitext(event.src_path)[-1] in self.files_to_observe:
-					
+			if not self.ignores(event.src_path) and os.path.splitext(event.src_path)[-1] in self.files_to_observe: # type: ignore
+
 				#if the file name has been changed, we have to delete the old records before upserting the new
 				if not os.path.basename(event.src_path) == os.path.basename(event.dest_path):
-					self.delete_records(event.src_path)
+					self.delete_records(event.src_path) # type: ignore
 
-				for record in self.prepare_records(event.dest_path):
+				for record in self.prepare_records(event.dest_path): # type: ignore
 					self.upsert_record(record)
 					print(f'{event.src_path} is now {event.dest_path} in the vector store')
 
-
-
 	def on_deleted(self, event):
 		if not event.is_directory:
-			if not self.ignores(event.src_path) and os.path.splitext(event.src_path)[-1] in self.files_to_observe:
+			if not self.ignores(event.src_path) and os.path.splitext(event.src_path)[-1] in self.files_to_observe: # type: ignore
 
-				self.delete_records(event.src_path)
-
+				self.delete_records(event.src_path) # type: ignore
 
 	def setup_ignore_patterns(self):
 		with open(self.gitignore_path, 'r') as f:
-		    spec = pathspec.GitIgnoreSpec.from_lines(f.read().splitlines())
-		    
-		return spec
+			spec = pathspec.GitIgnoreSpec.from_lines(f.read().splitlines())
 
+		return spec
 
 	def ignores(self, file_path: str) -> bool:
 		return self.ignore_pattern.match_file(file_path)

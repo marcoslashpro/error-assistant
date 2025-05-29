@@ -1,4 +1,4 @@
-from typing import *
+from typing import Optional
 import os 
 import logging
 
@@ -6,12 +6,11 @@ from smolagents import Tool
 import pinecone
 
 from error_assistant.error_assistant_config.config import Config
-from error_assistant.error_assistant_config.log_config import log_config
+from error_assistant.error_assistant_config.log_config import create_logger
 from error_assistant.vector_store.VectorStore import PineconeVectorStore
 
 
-logger = logging.getLogger(__name__)
-log_config(logger)
+logger = create_logger(__name__)
 
 config: Config = Config()
 
@@ -43,14 +42,14 @@ Queries should be in affirmative voice, e.g.:
         PineconeVectorStore.__init__(self)
 
 
-    def forward(self, query: str, filtering_field: Optional[str] = None) -> str:
+    def forward(self, query: str, filtering_field: Optional[str] = None) -> str:  # type: ignore[override]
         self.top_k: int = config.config['pinecone']['code_namespace']['top-k']
 
         try:
             if filtering_field:
                 results = self.vector_store.search(
                     namespace=self.namespace,
-                    query={
+                    query={  # type: ignore 
                         "inputs": {
                             'text': query,
                             'filter': {'category': filtering_field}
@@ -61,7 +60,7 @@ Queries should be in affirmative voice, e.g.:
             else:
                 results = self.vector_store.search(
                     namespace=self.namespace,
-                    query={
+                    query={  # type: ignore
                         "inputs": {
                             'text': query,
                         },

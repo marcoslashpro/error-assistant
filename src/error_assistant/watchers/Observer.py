@@ -1,6 +1,6 @@
 from error_assistant.watchers.CodeBaseHandler import CodeBaseHandler
 from error_assistant.error_assistant_config.config import Config
-
+from error_assistant.error_assistant_config.log_config import create_logger
 
 import time
 import pickle
@@ -12,6 +12,7 @@ from watchdog.events import FileCreatedEvent, FileDeletedEvent, FileMovedEvent, 
 
 
 config: Config = Config()
+logger = create_logger(__name__)
 
 
 class CodeWatcher():
@@ -21,8 +22,7 @@ class CodeWatcher():
 		self.path = config.config['paths']['code_base_path']
 
 		self.snapshot_path = config.config['paths']['snapshot_path']
-		assert self.snapshot_path.endswith('.p'), f'The snapshot path must lead to a pickle file, got {os.splitext(self.snapshot_path)[-1]}'
-
+		assert self.snapshot_path.endswith('.p'), f'The snapshot path must lead to a pickle file, got {os.path.splitext(self.snapshot_path)[-1]}'
 
 	def setup(self) -> None:
 		self.start_observer()
@@ -31,15 +31,14 @@ class CodeWatcher():
 
 		if self.checkpoint:
 			snap_diff = DirectorySnapshotDiff(self.checkpoint, self.new_snapshot)
-			self.update_vectorStore(snap_diff)
-			return			
+			self.update_vector_store(snap_diff)
+			return
 
 		#if we don't have a checkpoint, we'll just upload the entirety of the new snapshot
 		for path in self.new_snapshot.paths:
 			if not self.handler.ignores(path) and os.path.splitext(path)[-1] in self.handler.files_to_observe:
 				for record in self.handler.prepare_records(path):
 					self.handler.upsert_record(record)
-
 
 	def close(self) -> None:
 		#take a new snapshot of the directory
@@ -51,18 +50,15 @@ class CodeWatcher():
 		#stop and join the observer
 		self.stop_observer()
 
-
 	def start_observer(self) -> None:
 		self.observer.schedule(self.handler, self.path, recursive=True)
 		self.observer.start()
 		print(f'Observer started...')
 
-
 	def stop_observer(self) -> None:
 		self.observer.stop()
 		self.observer.join()
 		print('Observer stopped.')
-
 
 	def take_snapshot(self) -> DirectorySnapshot:
 		'''
@@ -71,45 +67,37 @@ class CodeWatcher():
 		snapshot: DirectorySnapshot = DirectorySnapshot(self.path)
 		return snapshot #save the snapshot
 
-
 	def save_snapshot(self, snapshot) -> None:
 		'''
 		Saves the DirectorySnapshot into a .pkl file
 		'''
 		pickle.dump(snapshot, open( self.snapshot_path, 'wb' ))
 
+	def open_snapshot(self) -> DirectorySnapshot:
+		if not os.path.exists(self.snapshot_path):
+			raise FileNotFoundError(
+				f"The directory snapshot path: {self.snapshot_path} cannot be located in the system"
+			)
 
-	def open_snapshot(self) -> None:
-		if os.path.exists(self.snapshot_path):
-			dirSnapshot: DirectorySnapshot = pickle.load(open( self.snapshot_path, "rb" ))
-			return dirSnapshot
+		dirSnapshot: DirectorySnapshot = pickle.load(open( self.snapshot_path, "rb" ))
+		return dirSnapshot
 
+	def update_vector_store(self, diff: DirectorySnapshotDiff) -> None:
+			"""
+			Given a DirectorySnapshotDiff, calls the appropriate handler method
+			(on_created, on_modified, etc.) for each changed file.
+			"""
+			event_handlers = [
+					(diff.files_created, FileCreatedEvent, self.handler.on_created),
+					(diff.files_modified, FileModifiedEvent, self.handler.on_modified),
+					(diff.files_moved, FileMovedEvent, self.handler.on_moved),
+					(diff.files_deleted, FileDeletedEvent, self.handler.on_deleted),
+			]
 
-	def update_vectorStore(self, directoryDiff: DirectorySnapshotDiff) -> None:
-		'''
-		Given the difference between an old directory and a new one,
-		We upsert into the vectorStore via the Handler.
-		'''	
-		event_map: dict[str, FileSystemEvent] = {
-			'files_created': {'event': FileCreatedEvent, 'method': self.handler.on_created},
-			'files_modified': {'event': FileModifiedEvent, 'method': self.handler.on_modified},
-			'files_moved': {'event': FileMovedEvent, 'method': self.handler.on_moved},
-			'files_deleted': {'event': FileDeletedEvent, 'method': self.handler.on_deleted}
-		}
-
-		try:
-			for event in event_map:
-				#extract it
-				diff: list[str] = getattr(directoryDiff, event)
-				#check if it has something inside
-				if diff:
-					#if it does, we create that specific FileSystemEvent
-					for d in diff:
-						file_event: FileSystemEvent = event_map[event]['event']
-						diffEvent = file_event(d)
-						#we then execute the specific handler method
-						handler_method = event_map[event]['method']
-						handler_method(diffEvent)
-
-		except Exception as e:
-			pass
+			for paths, event_cls, handler in event_handlers:
+					for path in paths:
+							try:
+									event = event_cls(path)
+									handler(event)
+							except Exception as e:
+									print(f"Failed to process {event_cls.__name__} for path {path}: {e}")
