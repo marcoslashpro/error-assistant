@@ -90,9 +90,8 @@ This is going to run inference on the model with the given error!
 
 ## P.S.
 Please always have a `.gitignore` file, or a lot of useless files will be uploaded to the vector store. 
-When cloning the repo, you'll also import the `.gitignore`.
-In case that you want to have your own(as you should) make sure to add `dirSnapshot.p` to it, so that you will not upload to the VectorStore the directory snaposhots.
-To create your own, a minimal one would be:
+To create your own(as you should) make sure to add `dirSnapshot.p` to it, so that you will not upload to the VectorStore the directory snapshots.
+A minimal one would be:
 
 ```
 # Byte-compiled / optimized / DLL files
