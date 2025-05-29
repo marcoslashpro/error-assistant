@@ -20,14 +20,20 @@ But I am getting ahead of myself. Let's see how to get it up and running.
 
 1.  **Install the repo**
    
-Clone the repo:
+Clone the repo dn cd into it:
 ```
-git clone https://github.com/marcoslashpro/error-assistant.git
+git clone https://github.com/marcoslashpro/error-assistant.git && cd error-assistant
 ```
 
-Install the repo via pip:
+Setup a `virtualenv`:
 ```
-pip install error-assistant
+python3 -m venv env
+source env/bin/activate
+```
+
+Install the repo using pip:
+```
+pip install -e .
 ```
 
 3.  **Setup the error-assistant**
