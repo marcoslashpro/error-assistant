@@ -40,7 +40,7 @@ pip install -e .
 
     a. The first thing to do is make sure you have a `.gitignore` file, if not, please create it, you might find a basic one at the bottom of this          README file.
 
-    b. Then run `error-assistant-ce` in the terminal, which will kindly open a `config.toml` file.
+    b. Then run `error-assistant-ec` in the terminal, which will kindly open a `config.toml` file.
 
     c.  Inside of the `config.toml` file, you'll find everything that you might want to set up in order to get the app up and running!
 
