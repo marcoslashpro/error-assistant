@@ -156,8 +156,8 @@ class Vectorizer(PineconeVectorStore):
 							self.vector_store.delete(record_id, namespace=self.namespace)
 
 						else:
-							#print(f'Removed all of the existing records for {file_path}')
+							#logger.info(f'Removed all of the existing records for {file_path}')
 							break
 
-				#print(f'{file_path} removed from the vector-store')
+				print(f'{file_path} removed from the vector-store')
 				break

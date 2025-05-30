@@ -30,3 +30,6 @@ src/error_assistant/tests
 
 #snapshot file
 dirSnapshot.p
+
+#error-assistant folder
+error-assistant/

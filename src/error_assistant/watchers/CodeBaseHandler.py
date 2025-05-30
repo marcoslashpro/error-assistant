@@ -11,12 +11,13 @@ from watchdog.observers import Observer
 from watchdog.utils.dirsnapshot import DirectorySnapshot
 import pathspec
 
-from error_assistant.error_assistant_config import config, log_config
+from error_assistant.error_assistant_config.config import Config
+from error_assistant.error_assistant_config.log_config import create_logger
 from error_assistant.vectorizer.Vectorizer import Vectorizer
 
 
-config = config.Config()
-logger = log_config.create_logger(__name__)
+config = Config()
+logger = create_logger(__name__)
 
 
 class CodeBaseHandler(FileSystemEventHandler, Vectorizer):

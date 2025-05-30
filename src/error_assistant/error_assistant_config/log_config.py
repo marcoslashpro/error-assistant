@@ -8,18 +8,18 @@ config: Config = Config()
 def create_logger(name: str):
     logger = logging.getLogger(name)
     class VectorHandler(logging.Handler):
-        def emit(self, log):
+        def emit(self, record):
             from error_assistant.error_agent.agent import code_agent
             from error_assistant.error_agent.prompts import error_agent_prompt
 
             log_entry = {
-                "timestamp": log.asctime,
-                "module": log.filename,
-                "line": log.lineno,
-                "message": log.getMessage()
+                "timestamp": record.asctime,
+                "module": record.filename,
+                "line": record.lineno,
+                "message": record.getMessage()
             }
 
-            code_agent({'role': 'user', 'content': f'{error_agent_prompt}{log_entry}'})
+            code_agent({'role': 'user', 'content': f'{error_agent_prompt}{log_entry}'})  # type: ignore[call-args]
 
     AGENT_LEVEL_NUM = 55
     AGENT_LEVEL_NAME = "AGENT"
@@ -41,7 +41,7 @@ def create_logger(name: str):
     logging.Logger.agent = agent
 
     base_path = config.config['paths']['code_base_path']
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.DEBUG)
     formatter = logging.Formatter(
         "%(asctime)s - Message level: %(levelname)s - Module: %(module)s - Line: %(lineno)d - Message: %(message)s",
         datefmt='%Y-%m-%d %H:%M:%S'

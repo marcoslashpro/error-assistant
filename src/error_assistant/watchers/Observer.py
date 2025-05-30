@@ -8,7 +8,7 @@ import os
 
 from watchdog.observers import Observer
 from watchdog.utils.dirsnapshot import DirectorySnapshot, DirectorySnapshotDiff
-from watchdog.events import FileCreatedEvent, FileDeletedEvent, FileMovedEvent, FileModifiedEvent, FileSystemEvent
+from watchdog.events import FileCreatedEvent, FileDeletedEvent, FileMovedEvent, FileModifiedEvent
 
 
 config: Config = Config()
@@ -70,7 +70,7 @@ class CodeWatcher():
 
 	def save_snapshot(self, snapshot) -> None:
 		'''
-		Saves the DirectorySnapshot into a .pkl file
+		Saves the DirectorySnapshot into a .p file
 		'''
 		pickle.dump(snapshot, open( self.snapshot_path, 'wb' ))
 
