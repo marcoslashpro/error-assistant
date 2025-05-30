@@ -1,8 +1,8 @@
 [paths]
-code_base_path = '/home/marco/Projects/error-assistant' #insert the path of the directory you want to monitor
-snapshot_path = '/home/marco/Projects/error-assistant/dirSnapshot.p' #don't remove dirSnapshot.p!
-gitignore_path = '/home/marco/Projects/error-assistant/.gitignore' #provide the path to the .gitignore file
-log_file_path = '/home/marco/Projects/error-assistant/logs.log' #provide the path to your logs file
+code_base_path = 'path/to/src/code' #insert the path of the directory you want to monitor
+snapshot_path = '/path/to/dirSnapshot.p' #don't remove dirSnapshot.p!
+gitignore_path = '/path/to/.gitignore' #provide the path to the .gitignore file
+log_file_path = '/path/to/logs.log' #provide the path to your logs file
 
 
 [observer]
@@ -22,7 +22,7 @@ files_to_observe = [
 
 
 [pinecone]
-api_key = 'pcsk_583DX1_37naR8wQjQBG2ZpTBqMTm5Ffv1T45w3KUDrM382a79oEUdwsGFjeXMbY9NcyaaC'
+api_key = 'pinecone/api'
 code-index_name = 'error-assistant-index'
 
 [pinecone.code_namespace]
